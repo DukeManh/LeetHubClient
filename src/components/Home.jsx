@@ -26,7 +26,7 @@ export default function Home({ questions }) {
     useEffect(() => {
     })
     return (
-        <div className="container my-4">
+        <div className="container my-4 page-content">
             <Intro></Intro>
         </div>
     )

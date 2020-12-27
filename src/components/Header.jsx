@@ -57,8 +57,8 @@ function Header({ auth, loginUser, logoutUser }) {
         if (auth.authenticated) setShow(false);
     }, [auth.authenticated])
     return (
-        <Navbar bg="light" expand="lg">
-            <div className="container">
+        <Navbar bg="light" expand="lg" className="mb-4">
+            <div className="container ">
                 <Navbar.Brand>
                     <Link className="nav-link" to="/">Leethub.com</Link>
                 </Navbar.Brand>

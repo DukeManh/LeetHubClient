@@ -1,7 +1,4 @@
-/* .App {
-  text-align: center;
-}
-
+/*
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -39,4 +36,21 @@
 
 .progressDiv {
   height: 30px;
+}
+
+#root{
+  position: relative;
+  min-height: 100vh;
+}
+
+.page-content{
+  margin-bottom: 10rem;
+  height: 100%;
+}
+
+#page-footer {
+  height: 8rem;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }

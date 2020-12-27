@@ -20,7 +20,7 @@ export default function QuestionDetail() {
                 setErr(error);
                 setLoaded(false);
             });
-    }, []);
+    }, [title_slug]);
 
     if (err) {
         return (
@@ -35,9 +35,9 @@ export default function QuestionDetail() {
     else {
         return (
             <React.Fragment>
-                <div className="container">
+                <div className="container page-content">
                     <div style={{ 'backgroundColor': 'rgba(0, 0, 0, 0.075' }}>
-                        <div text="text-center" dangerouslySetInnerHTML={{ __html: `${problem.content}` }}></div>
+                        <div dangerouslySetInnerHTML={{ __html: `${unescape(problem.content)}` }}></div>
                     </div>
                 </div>
                 <Submissions title_slug={title_slug}></Submissions>

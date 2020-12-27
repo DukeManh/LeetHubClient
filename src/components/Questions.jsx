@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 
 export default function AcTable({ fetchQuestions, questions, authenticated }) {
     useEffect(() => {
-        if (authenticated && !questions.total && !questions.loading) {
+        if (authenticated && !questions.err &&
+            !questions.total && !questions.loading) {
             console.log('Hello');
             fetchQuestions();
         }
@@ -21,7 +22,7 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
         </tr>
     )
     return (
-        <div className="container">
+        <div className="container page-content">
             <Table striped bordered hover variant="grey" size="sm">
                 <thead>
                     <tr>

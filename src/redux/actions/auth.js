@@ -46,11 +46,11 @@ export const retriveUser = () => (dispatch) => {
                 dispatch(loginSuccess(res));
             }
             else {
-                console.log("cookies expired");
+                throw new Error('Cookies Expired');
             }
         })
         .catch(err => {
-            console.log("cookies expired");
+            dispatch(loginFailure(err.message));
         });
 }
 

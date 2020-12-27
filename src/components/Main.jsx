@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import Home from './Home';
 import Header from './Header';
+import Footer from './Footer';
 import AcTable from './Questions';
 import QuestionDetail from './QuestionDetail';
 import { loginUser, logoutUser, retriveUser } from '../redux/actions/auth';
@@ -25,7 +26,7 @@ function Main({ auth, questions, loginUser, logoutUser, fetchQuestions, retriveU
         retriveUser();
     }, []);
     return (
-        <div>
+        <div id="page-container">
             <Header
                 auth={auth}
                 loginUser={loginUser}
@@ -46,6 +47,7 @@ function Main({ auth, questions, loginUser, logoutUser, fetchQuestions, retriveU
                 </Route>
                 <Redirect to="/" />
             </Switch>
+            <Footer />
         </div >
     )
 }

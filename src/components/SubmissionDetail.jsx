@@ -34,7 +34,7 @@ export default function SubmissionDetail({ activeIndex, handleClick, submissionI
                 Submission #{submissionId}
             </Accordion.Title>
             <Accordion.Content active={activeIndex === submissionId}>
-                <SyntaxHighlighter style={prism} language={submission.lang === 'python3' ? 'python' : submission.lang} wrapLongLines>
+                <SyntaxHighlighter style={prism} language={submission.lang === 'python3' ? 'python' : submission.lang} wrapLongLines >
                     {(error ? error : submission.code)}
                 </SyntaxHighlighter>
             </Accordion.Content>
