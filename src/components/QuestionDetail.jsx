@@ -39,8 +39,8 @@ export default function QuestionDetail() {
                     <div style={{ 'backgroundColor': 'rgba(0, 0, 0, 0.075' }}>
                         <div dangerouslySetInnerHTML={{ __html: `${unescape(problem.content)}` }}></div>
                     </div>
+                    <Submissions title_slug={title_slug}></Submissions>
                 </div>
-                <Submissions title_slug={title_slug}></Submissions>
             </React.Fragment>
         )
     }
