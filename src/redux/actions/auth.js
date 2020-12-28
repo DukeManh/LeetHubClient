@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as types from '../actionTypes';
 import { API_URL } from '../config';
+import { questionsFailure } from './submissions';
 
 const base_url = API_URL;
 
@@ -69,7 +70,8 @@ export const logoutSuccess = () => ({
 
 export const logoutUser = () => (dispatch) => {
     dispatch(logoutRequest());
-    axios.get(base_url + 'accounts/logout').then(() => {
+    dispatch(questionsFailure(''))
+    axios.get(base_url + 'accounts/logout', { withCredentials: true }).then(() => {
         dispatch(logoutSuccess());
     })
         .catch(err => {

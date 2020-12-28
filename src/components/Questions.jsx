@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom'
 import { Icon } from 'semantic-ui-react';
+import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
+
 
 
 export default function AcTable({ fetchQuestions, questions, authenticated }) {
     const [active, setActive] = useState('');
     const [order, setOrder] = useState(true);
-    const [loading, setloading] = useState(false);
     const [problems, setProblems] = useState({ questions: [] });
     const [sortById, setSortById] = useState([]);
     const [sortByName, setSortByName] = useState([]);
@@ -18,12 +19,10 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
     useEffect(() => {
         if (authenticated && !questions.err
             && !questions.total && !questions.loading) {
-            setloading(true);
             fetchQuestions();
         }
         else {
             setProblems(questions);
-            setloading(false);
         }
     }, [authenticated, questions, fetchQuestions]);
     useEffect(() => {
@@ -125,7 +124,7 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
         <div className="container page-content">
             <Table striped bordered hover variant="grey" size="sm" >
                 <thead>
-                    <tr className=".text-success">
+                    <tr className="text-success">
                         <th>ID<SortIcon field='question_id'></SortIcon> </th>
                         <th>Problem name<SortIcon field='question__title'></SortIcon></th>
                         <th>Difficulty<SortIcon field='difficulty'></SortIcon></th>
@@ -136,6 +135,23 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
                     {Data}
                 </tbody>
             </Table>
+            {questions.loading &&
+                <Segment style={{ 'margin': 0 }}>
+                    <Dimmer active inverted>
+                        <Loader size='large'>Loading</Loader>
+                    </Dimmer>
+
+                    <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
+                </Segment>
+            }
+            {questions.err &&
+                <tr >
+                    <td className="text-danger">{questions.err}</td>
+                </tr>}
+            {!authenticated &&
+                <tr >
+                    <td className="text-danger">Please login to continue</td>
+                </tr>}
         </div>
     )
 }

@@ -21,6 +21,12 @@ export const questionsReducer = (state = {
         case QUESTIONS_FAILURE:
             return {
                 ...state,
+                questions: [],
+                ac_total: 0,
+                ac_easy: 0,
+                ac_medium: 0,
+                ac_hard: 0,
+                total: 0,
                 err: action.err,
                 loading: false,
             }
