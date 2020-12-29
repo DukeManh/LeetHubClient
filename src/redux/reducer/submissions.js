@@ -33,6 +33,7 @@ export const questionsReducer = (state = {
         case QUESTIONS_SUCCESS:
             return {
                 ...state,
+                err: '',
                 loading: false,
                 questions: action.payload.stat_status_pairs,
                 ac_total: action.payload.num_solved,
