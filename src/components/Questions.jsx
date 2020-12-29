@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom'
-import { Icon } from 'semantic-ui-react';
-import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
+import { Icon, Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
+import ProblemLevel from './ProblemLevel';
 
 
 
@@ -47,18 +47,6 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
         }
     }, [order, active]);
 
-    const Data = problems.questions.map(q => {
-        var stat = q.stat;
-        return (
-            <tr key={stat.question_id}>
-                <td>{stat.question_id}</td>
-                <td><Link to={`/questions/${stat.question__title_slug}`}>{stat.question__title}</Link></td>
-                <td>{q.difficulty.level}</td>
-                <td>{(stat.total_acs / stat.total_submitted * 100).toFixed(2)}%</td>
-            </tr>
-        )
-    }
-    )
     const sortFields = (e, { field }) => {
 
         var compare;
@@ -122,6 +110,10 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
     }
     return (
         <div className="container page-content">
+            <div className="mb-4">
+                <h3><Icon name={'file code outline'} size='large'></Icon><strong>Your Submissions</strong></h3>
+                <p>You have solved {problems.ac_total}/{problems.questions.length} problems attempted</p>
+            </div>
             <Table striped bordered hover variant="grey" size="sm" >
                 <thead>
                     <tr className="text-success">
@@ -132,7 +124,17 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {Data}
+                    {problems.questions.map(q => {
+                        var stat = q.stat;
+                        return (
+                            <tr key={stat.question_id}>
+                                <td>{stat.question_id}</td>
+                                <td><Link to={`/questions/${stat.question__title_slug}`}>{stat.question__title}</Link></td>
+                                <td><ProblemLevel level={q.difficulty.level} /></td>
+                                <td>{(stat.total_acs / stat.total_submitted * 100).toFixed(2)}%</td>
+                            </tr>
+                        )
+                    })}
                 </tbody>
             </Table>
             {questions.loading &&
@@ -145,13 +147,7 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
                 </Segment>
             }
             {questions.err &&
-                <tr >
-                    <td className="text-danger">{questions.err}</td>
-                </tr>}
-            {!authenticated &&
-                <tr >
-                    <td className="text-danger">Please login to continue</td>
-                </tr>}
+                <h5 className="text-danger">{questions.err}</h5>}
         </div>
     )
 }
