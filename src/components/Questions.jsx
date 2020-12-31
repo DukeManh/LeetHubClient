@@ -18,13 +18,6 @@ export default function Questions({ fetchQuestions, questions, authenticated }) 
     const [sortByDifficulty, setSortByDifficulty] = useState([]);
     const [sortByAcceptance, setSortByAcceptance] = useState([]);
 
-    const searchText = useRef(null);
-
-    const onChange = (e) => {
-        const val = searchText.current.value;
-        if (val.length)
-            console.log(val);
-    }
 
     useEffect(() => {
         if (authenticated && !questions.err
@@ -57,6 +50,20 @@ export default function Questions({ fetchQuestions, questions, authenticated }) 
                 break;
         }
     }, [order, active]);
+
+    const searchText = useRef(null);
+
+    const onChange = (e) => {
+        const val = searchText.current.value;
+        console.log(val);
+        if (val.length) {
+            const filter = questions.questions.filter(question => kmp(val, question.stat['question__title']));
+            setProblems({ ...problems, questions: filter });
+        }
+        else {
+            setProblems(questions);
+        }
+    }
 
     const sortFields = (e, { field }) => {
         var compare;
@@ -123,18 +130,23 @@ export default function Questions({ fetchQuestions, questions, authenticated }) 
         )
     }
 
-
+    let timeOut = setTimeout(() => { }, 0)
     return (
         <div className='container page-content'>
             <div className='mb-4'>
                 <h3><Icon name={'file code outline'} size='large'></Icon><strong>Your Submissions</strong></h3>
-                <p>You have solved {problems.ac_total}/{problems.questions.length} problems attempted</p>
+                <p>You have solved {questions.ac_total}/{questions.questions.length} problems attempted</p>
             </div>
             <div className='my-2'>
                 <Form>
                     <Form.Row className="justify-content-md-center">
                         <Col xs={4}>
-                            <Form.Control placeholder="Type here..." ref={searchText} onChange={onChange} />
+                            <Form.Control placeholder="Type here..." ref={searchText} onChange={() => {
+                                clearTimeout(timeOut);
+                                timeOut = setTimeout(() => {
+                                    onChange();
+                                }, 500)
+                            }} />
                         </Col>
                     </Form.Row>
                 </Form>
@@ -190,6 +202,8 @@ function preProcess(input) {
 
 
 function kmp(input, title) {
+    input = input.toLowerCase();
+    title = title.toLowerCase();
     let lps = preProcess(input);
 
     let M = input.length;

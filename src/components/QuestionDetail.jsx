@@ -20,7 +20,7 @@ export default function QuestionDetail() {
                 return res.data;
             }
             catch (err) {
-                if (Axios.isCancel(err)) {
+                if (axios.isCancel(err)) {
                 }
                 else {
                     throw err;
