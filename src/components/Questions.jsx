@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import Table from 'react-bootstrap/Table';
-import { Link } from 'react-router-dom'
 import { Icon, Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
-import ProblemLevel from './ProblemLevel';
+import AcTable from './AcTable';
 
 
 
@@ -139,27 +137,3 @@ export default function Questions({ fetchQuestions, questions, authenticated }) 
     )
 }
 
-
-function AcTable({ problems }) {
-    return (
-        <tbody>
-            {problems.map(q => {
-                var stat = q.stat;
-                return (
-                    <tr key={stat.question_id}>
-                        <td>{stat.question_id}</td>
-                        <td><Link to={`/questions/${stat.question__title_slug}`}>{stat.question__title}</Link></td>
-                        <td><ProblemLevel level={q.difficulty.level} /></td>
-                        <td>{(stat.total_acs / stat.total_submitted * 100).toFixed(2)}%</td>
-                    </tr>
-                )
-            })}
-        </tbody>
-    )
-}
-
-AcTable.propTypes = {
-    questions: PropTypes.object,
-    fetchQuestions: PropTypes.func,
-    val: PropTypes.number
-}

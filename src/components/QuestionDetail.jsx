@@ -4,6 +4,7 @@ import { API_URL } from '../redux/config';
 import { useParams } from 'react-router-dom'
 import Submissions from './Submissions';
 import { Segment, Loader, Dimmer, Image } from 'semantic-ui-react';
+import Axios from 'axios';
 
 
 export default function QuestionDetail() {
@@ -12,15 +13,32 @@ export default function QuestionDetail() {
     const [loaded, setLoaded] = useState(false);
     const [problem, setProb] = useState({});
     useEffect(() => {
-        axios.get(API_URL + 'questions/' + title_slug, { withCredentials: true })
-            .then((prob) => {
-                setProb(prob.data);
+        const source = axios.CancelToken.source();
+        const fetchDetail = async () => {
+            try {
+                const res = (await axios.get(API_URL + 'questions/' + title_slug, { withCredentials: true, cancelToken: source.token }));
+                return res.data;
+            }
+            catch (err) {
+                if (Axios.isCancel(err)) {
+                }
+                else {
+                    throw err;
+                }
+            }
+        }
+        fetchDetail()
+            .then((data) => {
+                setProb(data);
                 setLoaded(true);
             })
             .catch((error) => {
                 setErr(error);
                 setLoaded(false);
             });
+        return () => {
+            source.cancel('Component unmounted');
+        }
     }, [title_slug]);
 
     if (err) {
