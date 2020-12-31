@@ -8,8 +8,10 @@ import Navbar from 'react-bootstrap/Navbar'
 import Modal from 'react-bootstrap/Modal'
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
-import { useFormik } from 'formik'
+import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
+import { Icon } from 'semantic-ui-react';
+import leetcode from '../leetcode.svg';
 
 function LoginForm({ loginUser, loading, err }) {
     // Pass the useFormik() hook initial form values and a submit function that will
@@ -25,25 +27,25 @@ function LoginForm({ loginUser, loading, err }) {
     });
     return (
         <Form onSubmit={formik.handleSubmit}>
-            <Form.Group controlId="username">
+            <Form.Group controlId='username'>
                 <Form.Label>User name</Form.Label>
-                <Form.Control type="text" placeholder="Enter username or email"
+                <Form.Control type='text' placeholder='Enter username or email'
                     onChange={formik.handleChange}
                     value={formik.values.username}
                 />
             </Form.Group>
 
-            <Form.Group controlId="password">
+            <Form.Group controlId='password'>
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Enter password"
+                <Form.Control type='password' placeholder='Enter password'
                     onChange={formik.handleChange}
                     value={formik.values.password}
                 />
-                <Form.Text className="text-muted"  >Your password is only used to login Leetcode.com on your behalf</Form.Text>
+                <Form.Text className='text-muted'  >Your password is only used to login Leetcode.com on your behalf</Form.Text>
             </Form.Group>
-            {loading ? <Spinner animation="grow" variant="secondary" /> : <Button variant="primary" type="submit"> Submit </Button>}
+            {loading ? <Spinner animation='grow' variant='secondary' /> : <Button variant='primary' type='submit'> Submit </Button>}
             {err ?
-                <div className="alert alert-dismissible alert-danger mt-2">
+                <div className='alert alert-dismissible alert-danger mt-2'>
                     <strong>Oh snap!</strong> {err}
                 </div> : <div />
             }
@@ -57,27 +59,34 @@ function Header({ auth, loginUser, logoutUser }) {
         if (auth.authenticated) setShow(false);
     }, [auth.authenticated])
     return (
-        <Navbar bg="light" expand="lg" className="mb-4">
-            <div className="container ">
+        <Navbar bg='light' expand='lg' className='mb-4'>
+            <div className='container '>
                 <Navbar.Brand>
-                    <Link className="nav-link" to="/">Leethub.com</Link>
+                    <Link className='nav-link' to='/'>  <img src={leetcode}
+                        alt='triangle with all three sides equal' style={{
+                            'height': 25,
+                            'width': 25
+                        }}></img>Leethub.com<Icon name='github' size='large' color='black' />
+                    </Link>
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto" bg="light">
-                        <Link className="nav-link" to="/">Home</Link>
-                        <Link className="nav-link" to="/questions">My Submissions</Link>
+                <Navbar.Toggle aria-controls='basic-navbar-nav' />
+                <Navbar.Collapse id='basic-navbar-nav'>
+                    <Nav className='mr-auto' bg='light'>
+                        <Link className='nav-link' to='/'>Home</Link>
+                        <Link className='nav-link' to='/questions'>My Submissions</Link>
                     </Nav>
-                    <Nav className="ml-auto">
-                        <Form inline className="my-2 my-lg-0">
-                            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                    <Nav className='ml-auto'>
+                        <Form inline className='my-2 my-lg-0'>
+                            <FormControl type='text' placeholder='Search' className='mr-sm-4 rounded-3' />
                         </Form>
                         {auth.authenticated ?
-                            <NavDropdown variant="success" title={auth.userStatus.realName} id="basic-nav-dropdown">
-                                <NavDropdown.Item onClick={logoutUser}>Logout</NavDropdown.Item>
-                            </NavDropdown>
+                            <React.Fragment>
+                                <img src={auth.userStatus.avatar} alt='' style={{ 'width': '2em' }} />
+                                <NavDropdown variant='success' title={auth.userStatus.realName} id='basic-nav-dropdown'>
+                                    <NavDropdown.Item onClick={logoutUser}>Logout</NavDropdown.Item>
+                                </NavDropdown></React.Fragment>
                             :
-                            <Button className="secondary my-2 my-sm-0 ml-2" onClick={() => setShow(!show)}>Login</Button>
+                            <Button className='secondary my-2 my-sm-0 ml-2' onClick={() => setShow(!show)}>Login</Button>
                         }
                     </Nav>
                 </Navbar.Collapse>
@@ -85,14 +94,14 @@ function Header({ auth, loginUser, logoutUser }) {
                     <Modal.Header closeButton>
                         <Modal.Title>Login With Github</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Your are about to login to <a href="https:://leetcode.com">Leetcode</a> (US endpoint)
+                    <Modal.Body>Your are about to login to <a href='https:://leetcode.com'>Leetcode</a> (US endpoint)
                     <LoginForm loginUser={loginUser}
                             loading={auth.loading}
                             err={auth.err}
                         ></LoginForm>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={() => setShow(!show)}> Close </Button>
+                        <Button variant='primary' onClick={() => setShow(!show)}> Close </Button>
                     </Modal.Footer>
                 </Modal>
             </div>

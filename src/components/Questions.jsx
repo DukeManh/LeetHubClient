@@ -7,7 +7,7 @@ import ProblemLevel from './ProblemLevel';
 
 
 
-export default function AcTable({ fetchQuestions, questions, authenticated }) {
+export default function Questions({ fetchQuestions, questions, authenticated }) {
     const [active, setActive] = useState('');
     const [order, setOrder] = useState(true);
     const [problems, setProblems] = useState({ questions: [] });
@@ -15,7 +15,6 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
     const [sortByName, setSortByName] = useState([]);
     const [sortByDifficulty, setSortByDifficulty] = useState([]);
     const [sortByAcceptance, setSortByAcceptance] = useState([]);
-
     useEffect(() => {
         if (authenticated && !questions.err
             && !questions.total && !questions.loading) {
@@ -25,6 +24,7 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
             setProblems(questions);
         }
     }, [authenticated, questions, fetchQuestions]);
+
     useEffect(() => {
         switch (active) {
             case 'question_id':
@@ -46,7 +46,6 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
                 break;
         }
     }, [order, active]);
-
     const sortFields = (e, { field }) => {
 
         var compare;
@@ -68,6 +67,7 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
         switch (field) {
             case 'question_id':
                 if (!sortById.length) {
+                    console.log('Hi');
                     const asc = sortById.concat({ ...problems, questions: problems.questions.slice(0).reverse() });
                     const des = asc.concat({ ...problems });
                     setSortById(des);
@@ -100,7 +100,6 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
         if (active !== field) setActive(field);
         setOrder((active === field) ? !order : false);
     }
-
     function SortIcon({ field }) {
         const icons = ['sort down', 'sort up', 'sort'];
         var icon = (field === active) ? ((order) ? icons[1] : icons[0]) : icons[2];
@@ -109,33 +108,21 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
         )
     }
     return (
-        <div className="container page-content">
-            <div className="mb-4">
+        <div className='container page-content'>
+            <div className='mb-4'>
                 <h3><Icon name={'file code outline'} size='large'></Icon><strong>Your Submissions</strong></h3>
                 <p>You have solved {problems.ac_total}/{problems.questions.length} problems attempted</p>
             </div>
-            <Table striped bordered hover variant="grey" size="sm" >
+            <Table striped bordered hover variant='grey' size='sm' >
                 <thead>
-                    <tr className="text-success">
+                    <tr className='text-success'>
                         <th>ID<SortIcon field='question_id'></SortIcon> </th>
                         <th>Problem name<SortIcon field='question__title'></SortIcon></th>
                         <th>Difficulty<SortIcon field='difficulty'></SortIcon></th>
                         <th>Acceptance<SortIcon field='acceptance'></SortIcon></th>
                     </tr>
                 </thead>
-                <tbody>
-                    {problems.questions.map(q => {
-                        var stat = q.stat;
-                        return (
-                            <tr key={stat.question_id}>
-                                <td>{stat.question_id}</td>
-                                <td><Link to={`/questions/${stat.question__title_slug}`}>{stat.question__title}</Link></td>
-                                <td><ProblemLevel level={q.difficulty.level} /></td>
-                                <td>{(stat.total_acs / stat.total_submitted * 100).toFixed(2)}%</td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
+                <AcTable problems={problems.questions}></AcTable>
             </Table>
             {questions.loading &&
                 <Segment style={{ 'margin': 0 }}>
@@ -147,8 +134,27 @@ export default function AcTable({ fetchQuestions, questions, authenticated }) {
                 </Segment>
             }
             {questions.err &&
-                <h5 className="text-danger">{questions.err}</h5>}
+                <h5 className='text-danger'>{questions.err}</h5>}
         </div>
+    )
+}
+
+
+function AcTable({ problems }) {
+    return (
+        <tbody>
+            {problems.map(q => {
+                var stat = q.stat;
+                return (
+                    <tr key={stat.question_id}>
+                        <td>{stat.question_id}</td>
+                        <td><Link to={`/questions/${stat.question__title_slug}`}>{stat.question__title}</Link></td>
+                        <td><ProblemLevel level={q.difficulty.level} /></td>
+                        <td>{(stat.total_acs / stat.total_submitted * 100).toFixed(2)}%</td>
+                    </tr>
+                )
+            })}
+        </tbody>
     )
 }
 

@@ -4,7 +4,7 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import Home from './Home';
 import Header from './Header';
 import Footer from './Footer';
-import AcTable from './Questions';
+import Questions from './Questions';
 import QuestionDetail from './QuestionDetail';
 import { loginUser, logoutUser, retriveUser } from '../redux/actions/auth';
 import { fetchQuestions } from '../redux/actions/submissions';
@@ -37,7 +37,7 @@ function Main({ auth, questions, loginUser, logoutUser, fetchQuestions, retriveU
                     component={() => <Home></Home>} ></Route>
                 <Route exact path="/questions"
                     component={() =>
-                        <AcTable
+                        <Questions
                             fetchQuestions={fetchQuestions}
                             questions={questions}
                             authenticated={auth.authenticated} />} >

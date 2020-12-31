@@ -3,6 +3,7 @@ import axios from 'axios';
 import { API_URL } from '../redux/config';
 import { useParams } from 'react-router-dom'
 import Submissions from './Submissions';
+import { Segment, Loader, Dimmer, Image } from 'semantic-ui-react';
 
 
 export default function QuestionDetail() {
@@ -24,18 +25,25 @@ export default function QuestionDetail() {
 
     if (err) {
         return (
-            <div className="container">{err.message}</div>
+            <div className='container'>{err.message}</div>
         )
     }
     else if (!loaded) {
         return (
-            <div className="container">Loading..</div>
+            <div className='container page-content'>
+                <Segment style={{ 'margin': 0 }}>
+                    <Dimmer active inverted>
+                        <Loader size='large'>Loading</Loader>
+                    </Dimmer>
+
+                    <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
+                </Segment></div>
         )
     }
     else {
         return (
             <React.Fragment>
-                <div className="container page-content">
+                <div className='container page-content'>
                     <div style={{ 'backgroundColor': 'rgba(0, 0, 0, 0.075' }}>
                         <div dangerouslySetInnerHTML={{ __html: `${unescape(problem.content)}` }}></div>
                     </div>

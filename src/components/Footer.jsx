@@ -2,9 +2,9 @@ import React from 'react'
 
 export default function Footer() {
     return (
-        <div className="container" id="page-footer">
+        <div className='container' id='page-footer'>
             <hr />
-            <p>Maintained by <a href="https://github.com/DukeManh">Chris Bui</a></p>
+            <p>Maintained by <a href='https://github.com/DukeManh'>Chris Bui</a></p>
 
             <p>Code released under the MIT License.</p>
 

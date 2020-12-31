@@ -30,17 +30,17 @@ export default function Submissions({ title_slug }) {
 
     if (err) {
         return (
-            <div className="container">{err}</div>
+            <div className='container'>{err}</div>
         )
     }
     else if (!loaded) {
         return (
-            <div className="container">Loading..</div>
+            <div className='container'>Loading..</div>
         )
     }
     else {
         return (
-            <div className="container">
+            <div className='container'>
                 <Accordion>
                     {
                         submissions.map(sub =>
