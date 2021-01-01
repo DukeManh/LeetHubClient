@@ -4,7 +4,6 @@ import { API_URL } from '../redux/config';
 import { useParams } from 'react-router-dom'
 import Submissions from './Submissions';
 import { Segment, Loader, Dimmer, Image } from 'semantic-ui-react';
-import Axios from 'axios';
 
 
 export default function QuestionDetail() {
@@ -21,6 +20,7 @@ export default function QuestionDetail() {
             }
             catch (err) {
                 if (axios.isCancel(err)) {
+                    console.log(err);
                 }
                 else {
                     throw err;
@@ -62,7 +62,7 @@ export default function QuestionDetail() {
         return (
             <React.Fragment>
                 <div className='container page-content'>
-                    <div style={{ 'backgroundColor': 'rgba(0, 0, 0, 0.075' }}>
+                    <div style={{}} className="content">
                         <div dangerouslySetInnerHTML={{ __html: `${unescape(problem.content)}` }}></div>
                     </div>
                     <Submissions title_slug={title_slug}></Submissions>

@@ -8,6 +8,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Modal from 'react-bootstrap/Modal'
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
+import Col from 'react-bootstrap/Col';
 import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
@@ -62,11 +63,14 @@ function Header({ auth, loginUser, logoutUser }) {
         <Navbar bg='light' expand='lg' className='mb-4'>
             <div className='container '>
                 <Navbar.Brand>
-                    <Link className='nav-link' to='/'>  <img src={leetcode}
-                        alt='triangle with all three sides equal' style={{
-                            'height': 25,
-                            'width': 25
-                        }}></img>Leethub.com<Icon name='github' size='large' color='black' />
+                    <Link className='nav-link' to='/'>
+                        <span className="text-warning bg-dark">Leet</span>
+                        <span className="text-dark bg-warning">hub</span>
+                        <span className="mx-2">
+                            <img src={leetcode} alt='leetcode icon' style={{ 'height': 33, 'width': 33 }}></img>
+                            <Icon name='plus' size='tiny' color='black' />
+                            <Icon name='github' size='large' color='black' />
+                        </span>
                     </Link>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -76,7 +80,7 @@ function Header({ auth, loginUser, logoutUser }) {
                         <Link className='nav-link' to='/questions'>My Submissions</Link>
                     </Nav>
                     <Nav className='ml-auto'>
-                        <Form inline className='my-2 my-lg-0'>
+                        <Form inline >
                             <FormControl type='text' placeholder='Search' className='mr-sm-4 rounded-3' />
                         </Form>
                         {auth.authenticated ?

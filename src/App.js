@@ -4,7 +4,7 @@ import Main from './components/Main';
 import { configureStore } from './redux/configureStore';
 import { BrowserRouter } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css'
-import 'bootswatch/dist/united/bootstrap.min.css';
+import 'bootswatch/dist/materia/bootstrap.min.css';
 import './App.css';
 
 const store = configureStore();

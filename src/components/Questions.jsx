@@ -75,8 +75,8 @@ export default function Questions({ fetchQuestions, questions, authenticated }) 
                         return (val1.stat[field] < val2.stat[field]) ? -1 : (val1.stat[field] === val2.stat[field]) ? 0 : 1;
                     }
 
-                    const asc = sortById.concat({ ...problems, questions: problems.questions.slice(0).reverse() });
-                    const des = asc.concat({ ...problems });
+                    const asc = sortById.concat({ ...questions, questions: questions.questions.slice(0).reverse() });
+                    const des = asc.concat({ ...questions });
                     setSortById(des);
                 }
                 break;
@@ -134,14 +134,14 @@ export default function Questions({ fetchQuestions, questions, authenticated }) 
     return (
         <div className='container page-content'>
             <div className='mb-4'>
-                <h3><Icon name={'file code outline'} size='large'></Icon><strong>Your Submissions</strong></h3>
+                <h3><Icon name={'file code'} size='large'></Icon><strong>Your Submissions</strong></h3>
                 <p>You have solved {questions.ac_total}/{questions.questions.length} problems attempted</p>
             </div>
-            <div className='my-2'>
-                <Form>
-                    <Form.Row className="justify-content-md-center">
-                        <Col xs={4}>
-                            <Form.Control placeholder="Type here..." ref={searchText} onChange={() => {
+            <div className='mb-4'>
+                <Form autocomplete="off">
+                    <Form.Row className="d-flex justify-content-center h-100">
+                        <Col id="searchbar" xs={10} md={8} lg={6}>
+                            <Form.Control id="searchinput" placeholder="Type here..." ref={searchText} onChange={() => {
                                 clearTimeout(timeOut);
                                 timeOut = setTimeout(() => {
                                     onChange();
@@ -209,8 +209,8 @@ function kmp(input, title) {
     let M = input.length;
     let N = title.length;
 
-    let j = 0;
-    let i = 0;
+    let j = 0, i = 0;
+
     while (i < N) {
         if (input[j] === title[i]) {
             i += 1;
