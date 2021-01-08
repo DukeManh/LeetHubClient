@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { API_URL } from '../redux/config';
 import { useParams } from 'react-router-dom'
@@ -11,35 +11,39 @@ export default function QuestionDetail() {
     const [err, setErr] = useState('');
     const [loaded, setLoaded] = useState(false);
     const [problem, setProb] = useState({});
-    useEffect(() => {
-        const source = axios.CancelToken.source();
-        const fetchDetail = async () => {
-            try {
-                const res = (await axios.get(API_URL + 'questions/' + title_slug, { withCredentials: true, cancelToken: source.token }));
-                return res.data;
+
+    const fetchDetail = useCallback(async (source) => {
+        try {
+            const res = (await axios.get(API_URL + 'questions/' + title_slug, { withCredentials: true, cancelToken: source.token }));
+            return res.data;
+        }
+        catch (error) {
+            if (axios.isCancel(error)) {
+                setErr(error);
             }
-            catch (err) {
-                if (axios.isCancel(err)) {
-                    console.log(err);
-                }
-                else {
-                    throw err;
-                }
+            else {
+                throw err;
             }
         }
-        fetchDetail()
-            .then((data) => {
-                setProb(data);
-                setLoaded(true);
-            })
-            .catch((error) => {
-                setErr(error);
-                setLoaded(false);
-            });
+    }, [title_slug]);
+
+    useEffect(() => {
+        const source = axios.CancelToken.source();
+        if (!loaded) {
+            fetchDetail(source)
+                .then((data) => {
+                    setProb(data);
+                    setLoaded(true);
+                })
+                .catch((error) => {
+                    setErr(error);
+                    setLoaded(false);
+                });
+        }
         return () => {
             source.cancel('Component unmounted');
         }
-    }, [title_slug]);
+    }, []);
 
     if (err) {
         return (

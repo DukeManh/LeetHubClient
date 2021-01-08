@@ -138,7 +138,7 @@ export default function Questions({ fetchQuestions, questions, authenticated }) 
                 <p>You have solved {questions.ac_total}/{questions.questions.length} problems attempted</p>
             </div>
             <div className='mb-4'>
-                <Form autocomplete="off">
+                <Form autoComplete="off">
                     <Form.Row className="d-flex justify-content-center h-100">
                         <Col id="searchbar" xs={10} md={8} lg={6}>
                             <Form.Control id="searchinput" placeholder="Type here..." ref={searchText} onChange={() => {

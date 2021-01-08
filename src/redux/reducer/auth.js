@@ -6,6 +6,7 @@ export const authReducer = (state = {
     userStatus: {},
     userCountryCode: '',
     err: '',
+    acSubmissionNum: [],
 }, action) => {
     switch (action.type) {
         case LOGIN_REQUEST:
@@ -21,13 +22,17 @@ export const authReducer = (state = {
                 authenticated: true,
                 userStatus: action.userStatus,
                 userCountryCode: action.userCountryCode,
+                acSubmissionNum: action.acSubmissionNum,
             }
         case LOGIN_FAILURE:
             return {
                 ...state,
                 loading: false,
                 authenticated: false,
-                err: action.err
+                err: action.err,
+                acSubmissionNum: [],
+                userStatus: {},
+                userCountryCode: '',
             }
         case LOGOUT_REQUEST:
             return {
@@ -41,6 +46,7 @@ export const authReducer = (state = {
                 loading: false,
                 userStatus: {},
                 userCountryCode: '',
+                acSubmissionNum: [],
             }
         default:
             return state;

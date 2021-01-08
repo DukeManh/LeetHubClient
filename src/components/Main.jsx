@@ -34,7 +34,7 @@ function Main({ auth, questions, loginUser, logoutUser, fetchQuestions, retriveU
             />
             <Switch>
                 <Route exact path="/"
-                    component={() => <Home></Home>} ></Route>
+                    component={() => <Home auth={auth} />} ></Route>
                 <Route exact path="/questions"
                     component={() =>
                         <Questions

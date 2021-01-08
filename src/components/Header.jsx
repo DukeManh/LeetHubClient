@@ -8,7 +8,6 @@ import Navbar from 'react-bootstrap/Navbar'
 import Modal from 'react-bootstrap/Modal'
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
-import Col from 'react-bootstrap/Col';
 import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
@@ -64,8 +63,8 @@ function Header({ auth, loginUser, logoutUser }) {
             <div className='container '>
                 <Navbar.Brand>
                     <Link className='nav-link' to='/'>
-                        <span className="text-warning bg-dark">Leet</span>
-                        <span className="text-dark bg-warning">hub</span>
+                        <span className="text-warning">Leet</span>
+                        <span className="text-dark" >hub</span>
                         <span className="mx-2">
                             <img src={leetcode} alt='leetcode icon' style={{ 'height': 33, 'width': 33 }}></img>
                             <Icon name='plus' size='tiny' color='black' />
