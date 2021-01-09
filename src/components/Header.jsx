@@ -84,10 +84,11 @@ function Header({ auth, loginUser, logoutUser }) {
                         </Form>
                         {auth.authenticated ?
                             <React.Fragment>
-                                <img src={auth.userStatus.avatar} alt='' style={{ 'width': '2em' }} />
+                                <img src={auth.userStatus.avatar} alt='' style={{ 'width': '3em' }} />
                                 <NavDropdown variant='success' title={auth.userStatus.realName} id='basic-nav-dropdown'>
                                     <NavDropdown.Item onClick={logoutUser}>Logout</NavDropdown.Item>
-                                </NavDropdown></React.Fragment>
+                                </NavDropdown>
+                            </React.Fragment>
                             :
                             <Button className='secondary my-2 my-sm-0 ml-2' onClick={() => setShow(!show)}>Login</Button>
                         }

@@ -50,9 +50,8 @@ body{
 }
 
 .tooltip-inner{
-  color:aqua;
   font-size: 0.9rem;
   border-radius:10px;
   background:rgb(38, 38, 38);
-  color: #fff;
+  color: rgb(119, 255, 140);
 }
