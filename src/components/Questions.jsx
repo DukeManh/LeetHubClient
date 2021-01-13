@@ -145,7 +145,7 @@ export default function Questions({ fetchQuestions, questions, authenticated }) 
                                 clearTimeout(timeOut);
                                 timeOut = setTimeout(() => {
                                     onChange();
-                                }, 500)
+                                }, 300)
                             }} />
                         </Col>
                     </Form.Row>

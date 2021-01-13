@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import ProgressBar from 'react-bootstrap/ProgressBar';
@@ -6,10 +6,12 @@ import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import FormControl from 'react-bootstrap/FormControl';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { Icon } from 'semantic-ui-react';
+import { useFormik } from 'formik';
+import axios from 'axios';
+import { API_URL } from '../redux/config';
 
 function Intro({ ac, user }) {
     const [showTooltip, setShowTooltip] = useState(false);
@@ -57,51 +59,113 @@ function Intro({ ac, user }) {
     );
 }
 export default function Home({ auth }) {
-    const repo = localStorage.getItem('repo');
+    const [disable, setDisable] = useState('');
+    const [err, setErr] = useState('');
+
+    const [repo, setRepo] = useState(localStorage.getItem('repo'));
+    const source = axios.CancelToken.source();
+
+    useEffect(() => {
+        return () => {
+            source.cancel('');
+        }
+    }, [err, repo])
+
+    const handleChange = (e) => {
+        formik.handleChange(e);
+        if (e.target.value) {
+            setDisable(e.target.name === 'repoUrl' ? 'name' : 'url');
+        }
+        else {
+            setDisable('');
+        }
+    }
+    const formik = useFormik({
+        initialValues: {
+            repoUrl: '',
+            repoName: ''
+        },
+        onSubmit: values => {
+            if (values.repoName) {
+                axios.post(API_URL + 'github/newrepo', { values }, { withCredentials: true, cancelToken: source.token })
+                    .then((response) => {
+                        localStorage.setItem('repo', response.data.url);
+                        setRepo(localStorage.getItem('repo'));
+                        setErr('');
+                    })
+                    .catch(error => {
+                        setErr(error.message);
+                    })
+            }
+            else if (values.repoUrl) {
+                if (values.repoUrl.match(/^https:\/\/github.com\/.*\/.*/g) !== null) {
+                    localStorage.setItem('repo', values.repoUrl);
+                    setRepo(localStorage.getItem('repo'));
+                    setErr('');
+                }
+                else {
+                    setErr('Invalid Github repository url');
+                }
+            }
+            else {
+                setErr('You must either link a github repository or create a new one')
+            }
+        },
+    });
     return (
         <div className='container my-4 page-content'>
             {auth.authenticated && !auth.loading ?
                 <React.Fragment>
                     <Intro ac={auth.acSubmissionNum} user={auth.userStatus.username} />
-                    <div className="container">
-                        <p>
+                    <div className="container mb">
+                        <div className="mb-2">
                             {localStorage.getItem('repo') !== null ?
-                                'Your Leetcode submissions will be commited to ' + repo
+                                <span><Icon name="check" color="green"></Icon>Your Leetcode submissions will be commited to   <a href={repo}>{repo}</a></span>
                                 :
                                 'You have not linked your github repository, create one or specify repo url below'
-                            }
-                        </p>
-                        <Form>
+                            }</div>
+                        <Form noValidate autoComplete="off" onSubmit={formik.handleSubmit}>
                             <Form.Row className="justify-content-center">
-                                <Col xs={5}>
+                                <Col md={5}>
                                     <InputGroup className="mb-2">
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>
                                                 <Icon name='linkify' />
                                             </InputGroup.Text>
                                         </InputGroup.Prepend>
-                                        <FormControl id="inlineFormInputGroup" placeholder="Repo link..." />
+                                        <Form.Control placeholder="Repo link..."
+                                            disabled={disable === 'url'}
+                                            onChange={handleChange}
+                                            value={formik.values.repoUrl}
+                                            name='repoUrl' />
                                         <InputGroup.Append>
-                                            <Button variant="success">Link repo</Button>
+                                            <Button type='submit' variant="success" disabled={disable === 'url'} >Link repo</Button>
                                         </InputGroup.Append>
                                     </InputGroup>
                                 </Col>
-                                <Col xs={1} className="text-center">Or</Col>
-                                <Col xs={5}>
+                                <Col md={1} className="text-center">Or</Col>
+                                <Col md={5}>
                                     <InputGroup className="mb-2">
                                         <InputGroup.Prepend>
                                             <InputGroup.Text>
                                                 <Icon name='bolt' />
                                             </InputGroup.Text>
                                         </InputGroup.Prepend>
-                                        <FormControl id="inlineFormInputGroup" placeholder="Repo Name" />
+                                        <Form.Control placeholder="Repo Name"
+                                            value={formik.values.repoName}
+                                            onChange={handleChange}
+                                            name='repoName'
+                                            disabled={disable === 'name'}
+                                        />
                                         <InputGroup.Append>
-                                            <Button variant="primary">Create repo</Button>
+                                            <Button type='submit' variant="primary" disabled={disable === 'name'}
+                                            >Create repo</Button>
                                         </InputGroup.Append>
                                     </InputGroup>
                                 </Col>
-                            </Form.Row>
-                            <Form.Row >
+                                <Col xs={11}>
+                                    <small className="text-danger">{err}</small>
+                                </Col>
                             </Form.Row>
                         </Form>
                     </div>

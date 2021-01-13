@@ -55,3 +55,37 @@ body{
   background:rgb(38, 38, 38);
   color: rgb(119, 255, 140);
 }
+
+.question_title p{
+    font-size: 16px;
+    color: rgb(33, 33, 33);
+    font-weight: 600;
+}
+
+.question_id {
+    line-height: 3em;
+}
+
+.syntax_highlighter{
+    padding: 4em !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .syntax_highlighter {
+    padding-top: 8em !important;
+  }
+}
+
+.code_content {
+  position: relative;
+}
+
+.submission_info {
+    height: 5em;
+    position: absolute;
+    top: 1em;
+    transform: translateX(1em);
+    width: 100%;
+    padding: 1em;
+}
+

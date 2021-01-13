@@ -47,7 +47,7 @@ export default function Submissions({ title_slug }) {
                             <SubmissionDetail key={sub.id}
                                 handleClick={handleClick}
                                 activeIndex={activeIndex}
-                                submissionId={sub.id}
+                                sub={sub}
                             ></SubmissionDetail>
                         )
                     }

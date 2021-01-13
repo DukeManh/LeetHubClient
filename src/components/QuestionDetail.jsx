@@ -22,7 +22,7 @@ export default function QuestionDetail() {
                 setErr(error);
             }
             else {
-                throw err;
+                throw error;
             }
         }
     }, [title_slug]);
@@ -66,6 +66,9 @@ export default function QuestionDetail() {
         return (
             <React.Fragment>
                 <div className='container page-content'>
+                    <div className="mb-3 question_title">
+                        <p>{problem.questionFrontendId}. {problem.title}</p>
+                    </div>
                     <div style={{}} className="content">
                         <div dangerouslySetInnerHTML={{ __html: `${unescape(problem.content)}` }}></div>
                     </div>
