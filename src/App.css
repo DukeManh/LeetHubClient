@@ -1,3 +1,7 @@
+*{
+  box-sizing: border-box;
+}
+
 body{
   font-size: 1rem;
 }
@@ -67,17 +71,21 @@ body{
 }
 
 .syntax_highlighter{
-    padding: 4em !important;
+    padding: 5em !important;
 }
 
 @media only screen and (max-width: 767px) {
   .syntax_highlighter {
-    padding-top: 8em !important;
+    padding-top: 8.5em !important;
+  }
+  .question_id {
+      text-align: center;
   }
 }
 
 .code_content {
   position: relative;
+  padding-bottom: 1em !important;
 }
 
 .submission_info {
@@ -89,3 +97,53 @@ body{
     padding: 1em;
 }
 
+#commit_btn {
+    padding-bottom: 2em;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-left: auto;
+}
+
+.commit{
+  border: 1px solid grey !important;
+  padding: 2em;
+  border-radius:12px 6px;
+  position: relative !important;
+  background-color: #FDF6E3;
+}
+
+.commit::before, .commit::after{
+  position: absolute;
+  bottom: 100%;
+  left: 96%;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: "";
+  border: solid transparent;
+}
+
+.commit::after{
+  border-color: rgba(136, 183, 213, 0);
+	border-bottom-color: #FDF6E3;
+	border-width: 9px;
+	margin-left: -9px;
+}
+.commit::before{
+  border-color: rgba(194, 225, 245, 0);
+	border-bottom-color: grey;
+	border-width: 11px;
+	margin-left: -11px;
+}
+
+.commit_form_data input, .commit_form_data textarea{
+  border: 1px solid black !important;
+  border-radius: 6px;
+  margin-bottom: 1em;
+  padding: 0 1em;
+}
+.commit_form_data input, .commit_form_data textarea{
+  box-shadow: none !important;
+}

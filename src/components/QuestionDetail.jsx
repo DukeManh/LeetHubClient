@@ -72,7 +72,7 @@ export default function QuestionDetail() {
                     <div style={{}} className="content">
                         <div dangerouslySetInnerHTML={{ __html: `${unescape(problem.content)}` }}></div>
                     </div>
-                    <Submissions title_slug={title_slug}></Submissions>
+                    <Submissions title_slug={title_slug} problem={problem}></Submissions>
                 </div>
             </React.Fragment>
         )

@@ -4,7 +4,7 @@ import { Accordion } from 'semantic-ui-react';
 import { API_URL } from '../redux/config';
 import SubmissionDetail from './SubmissionDetail';
 
-export default function Submissions({ title_slug }) {
+export default function Submissions({ title_slug, problem }) {
     const [err, setErr] = useState('');
     const [loaded, setLoaded] = useState(false);
     const [submissions, setSubmissions] = useState([]);
@@ -48,6 +48,7 @@ export default function Submissions({ title_slug }) {
                                 handleClick={handleClick}
                                 activeIndex={activeIndex}
                                 sub={sub}
+                                problem={problem}
                             ></SubmissionDetail>
                         )
                     }
