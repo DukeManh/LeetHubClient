@@ -163,7 +163,7 @@ export default function Questions({ fetchQuestions, questions, authenticated }) 
                 <AcTable problems={problems.questions}></AcTable>
             </Table>
             {questions.loading &&
-                <Segment style={{ 'margin': 0 }}>
+                <Segment className="my-3">
                     <Dimmer active inverted>
                         <Loader size='large'>Loading</Loader>
                     </Dimmer>

@@ -70,7 +70,7 @@ export default function SubmissionDetail({ activeIndex, handleClick, sub, proble
                     setLoaded(true);
                     setError('');
                 }).catch((err) => {
-                    setError(err.message);
+                    setError(err.response.data);
                     setLoaded(false);
                 });
         }

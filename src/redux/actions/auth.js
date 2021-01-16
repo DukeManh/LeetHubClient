@@ -34,7 +34,7 @@ export const loginUser = creds => (dispatch) => {
             }
         })
         .catch(err => {
-            dispatch(loginFailure(err.message));
+            dispatch(loginFailure(err.response.data));
         });
 
 }
@@ -51,7 +51,7 @@ export const retriveUser = () => (dispatch) => {
             }
         })
         .catch(err => {
-            dispatch(loginFailure(err.message));
+            dispatch(loginFailure(err.response.data));
         });
 }
 
@@ -75,6 +75,6 @@ export const logoutUser = () => (dispatch) => {
         dispatch(logoutSuccess());
     })
         .catch(err => {
-            dispatch(logoutFailure(err.message));
+            dispatch(logoutFailure(err.response.data));
         })
 }

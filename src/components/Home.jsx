@@ -45,14 +45,11 @@ function Intro({ ac, user }) {
                         </Tooltip>
                     )}
                 </Overlay>
-                {ac.map((val, idx) => {
-                    const color = idx === 1 ? 'success' : ((idx === 2) ? 'warning' : 'danger');
-                    if (idx !== 0)
-                        return (
-                            <ProgressBar animated onMouseOver={e => showHide(e, idx)} onMouseOut={e => showHide(e, idx)} variant={color} now={percentage(idx)} key={idx} />
-                        )
-                    else
-                        return <div />
+                {ac.slice(1).map((val, idx) => {
+                    const color = idx === 0 ? 'success' : ((idx === 1) ? 'warning' : 'danger');
+                    return (
+                        <ProgressBar animated onMouseOver={e => showHide(e, idx + 1)} onMouseOut={e => showHide(e, idx + 1)} variant={color} now={percentage(idx + 1)} key={idx} />
+                    )
                 })}
             </ProgressBar>
         </Jumbotron >
@@ -94,7 +91,7 @@ export default function Home({ auth }) {
                         setErr('');
                     })
                     .catch(error => {
-                        setErr(error.message);
+                        setErr(error.response.data);
                     })
             }
             else if (values.repoUrl) {

@@ -19,7 +19,7 @@ export default function QuestionDetail() {
         }
         catch (error) {
             if (axios.isCancel(error)) {
-                setErr(error);
+                setErr(error.response.data);
             }
             else {
                 throw error;
@@ -36,7 +36,7 @@ export default function QuestionDetail() {
                     setLoaded(true);
                 })
                 .catch((error) => {
-                    setErr(error);
+                    setErr(error.response.data);
                     setLoaded(false);
                 });
         }
